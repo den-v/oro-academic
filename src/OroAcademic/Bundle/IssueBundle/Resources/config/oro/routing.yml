@@ -1,0 +1,5 @@
+orocrm_task_bundle:
+    resource:     "@OroAcademicIssueBundle/Controller"
+    type:         annotation
+    prefix:       /
+

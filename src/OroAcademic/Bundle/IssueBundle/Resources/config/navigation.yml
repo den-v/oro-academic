@@ -1,0 +1,12 @@
+oro_menu_config:
+    items:
+        issues:
+            label: 'oroacademic.issue.menu.label'
+            route: 'oroacademic_issue_index'
+
+    tree:
+        application_menu:
+            children:
+                activities_tab:
+                    children:
+                        issues: ~

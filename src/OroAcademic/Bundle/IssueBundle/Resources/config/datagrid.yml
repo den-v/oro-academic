@@ -1,0 +1,175 @@
+datagrid:
+    issues-grid:
+        extended_entity_name: %oroacademic_issue.entity.class%
+        acl_resource: oroacademic_issue_view
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.id
+                    - issue.summary
+                    - issue.code
+                    - issue.type
+                    - ip.name as priority
+                    - ip.label as priorityLabel
+                    - workflowStep.label as workflowStepLabel
+                    - ir.name as resolution
+                    - ir.label as resolutionLabel
+                    - CONCAT(rpt.firstName, CONCAT(' ', rpt.lastName)) as reporterName
+                    - rpt.id as reporter
+                    - CONCAT(asg.firstName, CONCAT(' ', asg.lastName)) as assigneeName
+                    - asg.id as assignee
+                    - issue.createdAt
+                    - issue.updatedAt
+                from:
+                    - { table: %oroacademic_issue.entity.class%, alias: issue }
+                join:
+                    left:
+                        - { join: issue.priority, alias: ip }
+                        - { join: issue.resolution, alias: ir }
+                        - { join: issue.reporter, alias: rpt }
+                        - { join: issue.assignee, alias: asg }
+                        - { join: issue.workflowStep, alias: workflowStep }
+        inline_editing:
+            enable: true
+        columns:
+            code:
+                label:         oroacademic.issue.code.label
+            summary:
+                label:         oroacademic.issue.summary.label
+            type:
+                label:         oroacademic.issue.type.label
+            priority:
+                label:         oroacademic.issue.priority.label
+                frontend_type: select
+            workflowStepLabel:
+                label:         oroacademic.issue.workflow_step.label
+            resolution:
+                label:         oroacademic.issue.resolution.label
+                frontend_type: select
+            reporterName:
+                label:         oroacademic.issue.reporter.label
+            assigneeName:
+                label:         oroacademic.issue.assignee.label
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+        sorters:
+            columns:
+                code:
+                    data_name: issue.code
+                type:
+                    data_name: issue.type
+                workflowStepLabel:
+                    data_name: workflowStep.stepOrder
+                priority:
+                    data_name: ip.order
+                reporterName:
+                    data_name: reporterName
+                assigneeName:
+                    data_name: assigneeName
+                createdAt:
+                    data_name: issue.createdAt
+                updatedAt:
+                    data_name: issue.updatedAt
+            default:
+                updatedAt: DESC
+        filters:
+            columns:
+                code:
+                    type:      string
+                    data_name: issue.code
+                summary:
+                    type:      string
+                    data_name: issue.summary
+                type:
+                    label: oroacademic.issue.type.label
+                    type: choice
+                    data_name: issue.type
+                    options:
+                        field_options:
+                              multiple: true
+                              choices:
+                                  bug: Bug
+                                  subtask:  Subtask
+                                  task: Task
+                                  story: Story
+                priority:
+                    label: oroacademic.issue.priority.label
+                    type: entity
+                    data_name: ip.label
+                    options:
+                        field_options:
+                              class: OroAcademicIssueBundle:IssuePriority
+                              multiple: true
+                              property: label
+                              translatable_options: false
+                resolution:
+                    label: oroacademic.issue.resolution.label
+                    type:      entity
+                    data_name: ir.label
+                    options:
+                        field_options:
+                              class: OroAcademicIssueBundle:IssueResolution
+                              multiple: true
+                              property: label
+                              translatable_options: false
+                reporter:
+                    type: choice-tree
+                    label: oroacademic.issue.reporter.label
+                    data_name: issue.reporter
+                    options:
+                        lazy: @oro_user.provider.filter.user_choice_tree->shouldBeLazy
+                        data: @?oro_user.provider.filter.user_choice_tree->getList
+                assegnee:
+                    type: choice-tree
+                    label: oroacademic.issue.assignee.label
+                    data_name: issue.assignee
+                    options:
+                        lazy: @oro_user.provider.filter.user_choice_tree->shouldBeLazy
+                        data: @?oro_user.provider.filter.user_choice_tree->getList
+                createdAt:
+                    type:      datetime
+                    data_name: issue.createdAt
+                updatedAt:
+                    type:      datetime
+                    data_name: issue.updatedAt
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oroacademic_issue_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      oroacademic_issue_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oroacademic_issue_delete
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  oroacademic_issue_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  oroacademic_issue_view
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  oroacademic_issue_view
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+        options:
+            entity_pagination: true

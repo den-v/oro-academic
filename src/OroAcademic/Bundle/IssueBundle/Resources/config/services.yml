@@ -1,0 +1,2 @@
+parameters:
+    oroacademic_issue.entity.class:                       OroAcademic\Bundle\IssueBundle\Entity\Issue
