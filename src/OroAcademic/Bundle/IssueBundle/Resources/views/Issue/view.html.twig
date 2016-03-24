@@ -1,5 +1,6 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 {% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 {% import 'OroUserBundle::macros.html.twig' as U %}
 
@@ -13,7 +14,7 @@
             'entity_label': 'oroacademic.issue.entity_label'|trans
         }) }}
     {% endif %}
-    {% if resource_granted('DELETE', entity) %}
+    {#{% if resource_granted('DELETE', entity) %}
         {{ UI.deleteButton({
             'dataUrl': path('oroacademic_issue_delete', {'id': entity.id}),
             'dataRedirect': path('oroacademic_issue_index'),
@@ -22,6 +23,14 @@
             'dataId': entity.id,
             'entity_label': 'oroacademic.issue.entity_label'|trans
         }) }}
+    {% endif %}#}
+    {% if entity.type == 'Story' and resource_granted('oroacademic_issue_create') %}
+        <div class="btn-group">
+            {{ UI.addButton({
+                'path' : path('oroacademic_subissue_create', {'id' : entity.id}),
+                'entity_label': 'oroacademic.subissue.entity_label'|trans
+            }) }}
+        </div>
     {% endif %}
 {% endblock navButtons %}
 
@@ -60,6 +69,10 @@
                     {%- endif -%}
                 {%- endset -%}
                 {{ UI.renderHtmlProperty('oroacademic.issue.reporter.label'|trans, reporterData) }}
+
+                {% if entity.parent is not empty %}
+                    <a href="{{ path('oroacademic_issue_view', {'id': entity.parent.id}) }}">{{ UI.renderProperty('oroacademic.subissue.parent_story'|trans, entity.parent.code) }}</a>
+                {% endif %}
             </div>
             <div class="responsive-block">
                 {{ entityConfig.renderDynamicFields(entity) }}
@@ -76,6 +89,19 @@
             ]
         }
     ] %}
+
+    {% if entity.type == 'Story' %}
+        {% set dataBlocks = dataBlocks|merge([{
+        'title': 'oroacademic.subissue.entity_plural_label'|trans,
+        'subblocks': [{
+        'title': '',
+        'useSpan': false,
+        'data' : [
+        dataGrid.renderGrid('sub-issues-grid', {'parent_id': entity.id})
+        ]
+        }]
+        }] ) %}
+    {% endif %}
 
     {% set id = 'issueView' %}
     {% set data = { 'dataBlocks': dataBlocks } %}

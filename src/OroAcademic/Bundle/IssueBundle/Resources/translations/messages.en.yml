@@ -20,3 +20,8 @@ oroacademic:
             related.label:              Related Issues
 
             saved_message:              Issue Successfuly Saved
+
+        subissue:
+            entity_label:               Sub-Task
+            entity_plural_label:        Sub-Tasks
+            parent_story:               Parent Story

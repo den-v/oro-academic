@@ -168,3 +168,16 @@ datagrid:
 #                link:          delete_link
         options:
             entity_pagination: true
+    sub-issues-grid:
+            extends: issues-grid
+            source:
+                query:
+                    where:
+                        and:
+                            - issue.parent = :parent_id
+                bind_parameters:
+                    - parent_id
+            filters: ~
+            options:
+                toolbarOptions:
+                    hide: true

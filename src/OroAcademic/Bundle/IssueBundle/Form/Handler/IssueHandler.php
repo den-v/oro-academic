@@ -88,10 +88,11 @@ class IssueHandler
     protected function checkForm(Issue $entity, $currentUser)
     {
         if ($entity->getId() || $entity->getParent()) {
-            //$this->form->remove('type');
+            $this->form->remove('type');
         } else {
-            $entity->setReporter($currentUser);
-            $entity->setAssignee($currentUser);
+            $entity
+                ->setReporter($currentUser)
+                ->setAssignee($currentUser);
         }
     }
 }

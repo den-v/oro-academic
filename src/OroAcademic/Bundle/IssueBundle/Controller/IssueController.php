@@ -32,6 +32,7 @@ class IssueController extends Controller
 
     /**
      * @Route("/create", name="oroacademic_issue_create")
+     * @Route("/create/sub/{id}", name="oroacademic_subissue_create", requirements={"id"="\d+"})
      * @Acl(
      *      id="oroacademic_issue_create",
      *      type="entity",
@@ -43,10 +44,30 @@ class IssueController extends Controller
     public function createAction()
     {
         $issue = new Issue();
-
-        $formAction = $this->get('oro_entity.routing_helper')
-            ->generateUrlByRequest('oroacademic_issue_create', $this->get('request_stack')->getCurrentRequest());
-
+        $parentId = $this->get('request_stack')->getCurrentRequest()->get('id',0);
+        if((int)$parentId > 0)
+        {
+            $parent = $this->getDoctrine()->getRepository('OroAcademicIssueBundle:Issue')->findOneBy(['id' => $parentId, 'type' => 'Story']);
+            $issue
+                ->setReporter($this->getUser())
+                ->setAssignee($this->getUser())
+                ->setParent($parent)
+                ->setType('Subtask');
+            $formAction = $this->get('oro_entity.routing_helper')
+                ->generateUrlByRequest(
+                    'oroacademic_subissue_create',
+                    $this->get('request_stack')->getCurrentRequest(),
+                    ['id' => $parentId]
+                );
+        }
+        else
+        {
+            $formAction = $this->get('oro_entity.routing_helper')
+                ->generateUrlByRequest(
+                    'oroacademic_issue_create',
+                    $this->get('request_stack')->getCurrentRequest()
+                );
+        }
         return $this->formRender($issue, $formAction);
     }
 
@@ -81,7 +102,11 @@ class IssueController extends Controller
     public function updateAction(Issue $issue)
     {
         $formAction = $this->get('oro_entity.routing_helper')
-            ->generateUrlByRequest('oroacademic_issue_update', $this->get('request_stack')->getCurrentRequest(), ['id' => $issue->getId()]);
+            ->generateUrlByRequest(
+                'oroacademic_issue_update',
+                $this->get('request_stack')->getCurrentRequest(),
+                ['id' => $issue->getId()]
+            );
 
         return $this->formRender($issue, $formAction);
     }
@@ -122,5 +147,4 @@ class IssueController extends Controller
             'formAction' => $formAction,
         );
     }
-
 }

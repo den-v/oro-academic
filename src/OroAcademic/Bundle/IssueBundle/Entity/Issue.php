@@ -296,6 +296,7 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
         $this->collaborators = new ArrayCollection();
         $this->relatedIssues = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
     /**
      * @return int
@@ -355,10 +356,12 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param string $type
+     * @return Issue
      */
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
     }
 
     /**
@@ -413,10 +416,12 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param User $reporter
+     * @return Issue
      */
     public function setReporter($reporter)
     {
         $this->reporter = $reporter;
+        return $this;
     }
 
     /**
@@ -429,14 +434,18 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param User $assignee
+     * @return Issue
      */
     public function setAssignee($assignee)
     {
         $this->assignee = $assignee;
+        return $this;
     }
 
     /**
-     * @return int
+     * Get parent
+     *
+     * @return Issue
      */
     public function getParent()
     {
@@ -444,15 +453,20 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     }
 
     /**
-     * @param int $parent
+     * Set parent
+     *
+     * @param Issue $parent
+     *
+     * @return Issue
      */
-    public function setParent($parent)
+    public function setParent(Issue $parent = null)
     {
         $this->parent = $parent;
+        return $this;
     }
 
     /**
-     * @return int
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getChildren()
     {
@@ -460,11 +474,21 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     }
 
     /**
-     * @param int $children
+     * @param Issue $child
+     * @return Issue
      */
-    public function setChildren($children)
+    public function addChild(Issue $child)
     {
-        $this->children = $children;
+        $this->children[] = $child;
+        return $this;
+    }
+
+    /**
+     * @param Issue $child
+     */
+    public function removeChild(Issue $child)
+    {
+        $this->children->removeElement($child);
     }
 
     /**

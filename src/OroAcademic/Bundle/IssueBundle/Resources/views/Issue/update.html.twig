@@ -21,6 +21,9 @@
             'entityTitle': entity.summary
         } %}
         {{ parent() }}
+    {% elseif entity.parent is not empty %}
+        {% set title = 'oro.ui.create_entity'|trans({'%entityName%': 'oroacademic.subissue.entity_label'|trans}) ~ ' for ' ~ entity.parent.code %}
+        {% include 'OroUIBundle::page_title_block.html.twig' with { title: title } %}
     {% else %}
         {% set title = 'oro.ui.create_entity'|trans({'%entityName%': 'oroacademic.issue.entity_label'|trans}) %}
         {% include 'OroUIBundle::page_title_block.html.twig' with { title: title } %}
@@ -39,7 +42,7 @@
                 'data': [
                     form_row(form.code),
                     form_row(form.summary),
-                    form_row(form.type),
+                    form.type is defined ? form_row(form.type) : '',
                     form_row(form.description),
                     form_row(form.priority),
                     form_row(form.assignee),
