@@ -11,10 +11,12 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 
 use OroAcademic\Bundle\IssueBundle\Model\ExtendIssue;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -29,12 +31,21 @@ use OroAcademic\Bundle\IssueBundle\Model\ExtendIssue;
  * @Config(
  *      routeName="oroacademic_issue_index",
  *      routeView="oroacademic_issue_view",
+ *      routeCreate="oroacademic_issue_create",
  *      defaultValues={
  *          "security"={
- *              "type"="ACL"
+ *              "type"="ACL",
+ *              "group_name"=""
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "ownership"={
+ *              "owner_type"="USER",
+ *              "owner_field_name"="reporter",
+ *              "owner_column_name"="reporter_id",
+ *              "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
  *          },
  *          "grouping"={
  *              "groups"={"activity"}
@@ -62,9 +73,18 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     protected $id;
 
     /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @var string
      *
      * @ORM\Column(name="summary", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message = "Summary can't be blank")
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
@@ -77,6 +97,7 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @ORM\Column(name="code", type="string", length=32, unique=true)
+     * @Assert\NotBlank(message = "Code can't be blank")
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
@@ -104,6 +125,8 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=32, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^(Bug|Task|Subtask|Story)/")
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
@@ -116,6 +139,7 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     /**
      * @var IssuePriority
      *
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="IssuePriority")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="priority", referencedColumnName="name")
@@ -135,6 +159,7 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     /**
      * @var User
      *
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="reporter_id", referencedColumnName="id", onDelete="SET NULL")
      * @ConfigField(
@@ -150,6 +175,7 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     /**
      * @var User
      *
+     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="assignee_id", referencedColumnName="id", onDelete="SET NULL")
      * @ConfigField(
@@ -193,15 +219,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      */
     protected $workflowStep;
 
-    /**
-     * @var Collection
-     */
     protected $collaborators;
 
     /**
-     * @var Collection
-     */
-    protected $related_issues;
+     * @ORM\ManyToMany(targetEntity="Issue", inversedBy="relatedIssues")
+     * @ORM\JoinTable(name="oroacademic_issue_related")
+     **/
+    protected $relatedIssues;
 
     /**
      * @var \DateTime
@@ -236,13 +260,42 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      */
     protected $updatedAtSet;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id")
+     * )
+     */
+    protected $organization;
+
+    /**
+     * Set organization
+     *
+     * @param \Oro\Bundle\OrganizationBundle\Entity\Organization $organization
+     *
+     * @return Issue
+     */
+    public function setOrganization(Organization $organization = null)
+    {
+        $this->organization = $organization;
+        return $this;
+    }
+    /**
+     * Get organization
+     *
+     * @return \Oro\Bundle\OrganizationBundle\Entity\Organization
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+
 
     public function __construct()
     {
         parent::__construct();
 
         $this->collaborators = new ArrayCollection();
-        $this->related_issues = new ArrayCollection();
+        $this->relatedIssues = new ArrayCollection();
     }
     /**
      * @return int
@@ -338,6 +391,16 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     public function setResolution($resolution)
     {
         $this->resolution = $resolution;
+    }
+
+    /**
+     * BugFix in platform OroUIBundle::macros.html.twig line 890
+     *
+     * @return User
+     */
+    public function getOwner()
+    {
+        return $this->reporter;
     }
 
     /**
@@ -492,5 +555,46 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     public function isUpdatedAtSet()
     {
         return $this->updatedAtSet;
+    }
+
+    /**
+     * Add relatedIssues
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $relatedIssues
+     *
+     * @return Issue
+     */
+    public function setRelatedIssues(ArrayCollection $relatedIssues)
+    {
+        $this->relatedIssues = $relatedIssues;
+        return $this;
+    }
+
+    /**
+     * Get relatedIssues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRelatedIssues()
+    {
+        return $this->relatedIssues;
+    }
+
+    /**
+     * Remove relatedIssue
+     *
+     * @param Issue $relatedIssue
+     */
+    public function removeRelatedIssue(Issue $relatedIssue)
+    {
+        $this->relatedIssues->removeElement($relatedIssue);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getCode().": ".$this->getSummary();
     }
 }

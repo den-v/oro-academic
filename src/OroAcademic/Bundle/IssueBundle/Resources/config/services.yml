@@ -1,2 +1,8 @@
 parameters:
     oroacademic_issue.entity.class:                       OroAcademic\Bundle\IssueBundle\Entity\Issue
+
+    oroacademic_issue.types:
+        Bug: Bug
+        Task: Task
+        Subtask: Subtask
+        Story: Story

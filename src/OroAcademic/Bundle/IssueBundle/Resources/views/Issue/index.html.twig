@@ -3,11 +3,11 @@
 {% set gridName = 'issues-grid' %}
 {% set pageTitle = 'oroacademic.issue.menu.label'|trans %}
 
-{#{% block navButtons %}
-    {% if resource_granted('orocrm_task_create') %}
+{% block navButtons %}
+    {% if resource_granted('oroacademic_issue_create') %}
         {{ UI.addButton({
-            'path' : path('orocrm_task_create'),
-            'entity_label': 'orocrm.task.entity_label'|trans
+            'path' : path('oroacademic_issue_create'),
+            'entity_label': 'oroacademic.issue.entity_label'|trans
         }) }}
     {% endif %}
-{% endblock %}#}
+{% endblock %}

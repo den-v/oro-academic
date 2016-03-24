@@ -17,3 +17,6 @@ oroacademic:
             resolution.label:           Resolution
             assignee.label:             Assigned To
             reporter.label:             Reported By
+            related.label:              Related Issues
+
+            saved_message:              Issue Successfuly Saved

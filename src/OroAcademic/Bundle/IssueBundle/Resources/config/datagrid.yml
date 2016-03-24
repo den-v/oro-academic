@@ -92,11 +92,7 @@ datagrid:
                     options:
                         field_options:
                               multiple: true
-                              choices:
-                                  bug: Bug
-                                  subtask:  Subtask
-                                  task: Task
-                                  story: Story
+                              choices: %oroacademic_issue.types%
                 priority:
                     label: oroacademic.issue.priority.label
                     type: entity
@@ -147,29 +143,28 @@ datagrid:
                 type:       url
                 route:      oroacademic_issue_update
                 params:     [ id ]
-            delete_link:
-                type:       url
-                route:      oroacademic_issue_delete
-                params:     [ id ]
+#            delete_link:
+#                type:       url
+#                route:      oroacademic_issue_delete
+#                params:     [ id ]
         actions:
             view:
                 type:          navigate
-                acl_resource:  oroacademic_issue_view
                 label:         oro.grid.action.view
+                acl_resource:  oroacademic_issue_view
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
             update:
                 type:          navigate
-                acl_resource:  oroacademic_issue_view
                 label:         oro.grid.action.update
+                acl_resource:  oroacademic_issue_update
                 icon:          edit
                 link:          update_link
-            delete:
-                type:          delete
-                acl_resource:  oroacademic_issue_view
-                label:         oro.grid.action.delete
-                icon:          trash
-                link:          delete_link
+#            delete:
+#                type:          delete
+#                label:         oro.grid.action.delete
+#                icon:          trash
+#                link:          delete_link
         options:
             entity_pagination: true
