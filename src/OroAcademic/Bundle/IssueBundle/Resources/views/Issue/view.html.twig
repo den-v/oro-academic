@@ -90,6 +90,19 @@
         }
     ] %}
 
+    {% if entity.relatedIssues is not null %}
+        {% set dataBlocks = dataBlocks|merge([{
+        'title': 'oroacademic.issue.related.label'|trans,
+        'subblocks': [{
+        'title': '',
+        'useSpan': false,
+        'data' : [
+        dataGrid.renderGrid('rel-issues-grid', {'id': entity.id})
+        ]
+        }]
+        }] ) %}
+    {% endif %}
+
     {% if entity.type == 'Story' %}
         {% set dataBlocks = dataBlocks|merge([{
         'title': 'oroacademic.subissue.entity_plural_label'|trans,

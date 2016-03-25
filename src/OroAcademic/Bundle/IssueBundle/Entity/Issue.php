@@ -227,6 +227,8 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      **/
     protected $relatedIssues;
 
+
+
     /**
      * @var \DateTime
      *

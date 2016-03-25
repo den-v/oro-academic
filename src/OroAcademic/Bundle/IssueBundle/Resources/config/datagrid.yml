@@ -181,3 +181,19 @@ datagrid:
             options:
                 toolbarOptions:
                     hide: true
+    rel-issues-grid:
+                extends: issues-grid
+                source:
+                    query:
+                        join:
+                            inner:
+                                - { join: issue.relatedIssues, alias: ri }
+                        where:
+                            and:
+                                - ri.id = :id
+                    bind_parameters:
+                        - id
+                filters: ~
+                options:
+                    toolbarOptions:
+                        hide: true

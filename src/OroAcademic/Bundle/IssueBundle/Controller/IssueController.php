@@ -44,10 +44,12 @@ class IssueController extends Controller
     public function createAction()
     {
         $issue = new Issue();
-        $parentId = $this->get('request_stack')->getCurrentRequest()->get('id',0);
-        if((int)$parentId > 0)
-        {
-            $parent = $this->getDoctrine()->getRepository('OroAcademicIssueBundle:Issue')->findOneBy(['id' => $parentId, 'type' => 'Story']);
+        $parentId = $this->get('request_stack')->getCurrentRequest()->get('id', 0);
+        if ((int)$parentId > 0) {
+            $parent = $this
+                ->getDoctrine()
+                ->getRepository('OroAcademicIssueBundle:Issue')
+                ->findOneBy(['id' => $parentId, 'type' => 'Story']);
             $issue
                 ->setReporter($this->getUser())
                 ->setAssignee($this->getUser())
@@ -59,9 +61,7 @@ class IssueController extends Controller
                     $this->get('request_stack')->getCurrentRequest(),
                     ['id' => $parentId]
                 );
-        }
-        else
-        {
+        } else {
             $formAction = $this->get('oro_entity.routing_helper')
                 ->generateUrlByRequest(
                     'oroacademic_issue_create',
