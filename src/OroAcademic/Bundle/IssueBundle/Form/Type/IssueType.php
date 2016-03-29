@@ -19,7 +19,7 @@ class IssueType extends AbstractType
 
     private $issueTypes;
 
-    public function __construct(Array $issueTypes)
+    public function __construct(array $issueTypes)
     {
         $this->issueTypes = $issueTypes;
     }

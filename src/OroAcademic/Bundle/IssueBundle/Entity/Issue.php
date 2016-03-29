@@ -222,12 +222,15 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     protected $collaborators;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Issue", inversedBy="relatedIssues")
+     * @ORM\ManyToMany(targetEntity="Issue", inversedBy="issuesRelated")
      * @ORM\JoinTable(name="oroacademic_issue_related")
      **/
     protected $relatedIssues;
 
-
+    /**
+     * @ORM\ManyToMany(targetEntity="Issue", mappedBy="relatedIssues")
+     **/
+    protected $issuesRelated;
 
     /**
      * @var \DateTime

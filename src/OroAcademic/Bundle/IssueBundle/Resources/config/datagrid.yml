@@ -1,6 +1,6 @@
 datagrid:
     issues-grid:
-        extended_entity_name: %oroacademic_issue.entity.class%
+        extended_entity_name: '%oroacademic_issue.entity.class%'
         acl_resource: oroacademic_issue_view
         source:
             type: orm
@@ -22,7 +22,7 @@ datagrid:
                     - issue.createdAt
                     - issue.updatedAt
                 from:
-                    - { table: %oroacademic_issue.entity.class%, alias: issue }
+                    - { table: '%oroacademic_issue.entity.class%', alias: issue }
                 join:
                     left:
                         - { join: issue.priority, alias: ip }
@@ -92,7 +92,7 @@ datagrid:
                     options:
                         field_options:
                               multiple: true
-                              choices: %oroacademic_issue.types%
+                              choices: '%oroacademic_issue.types%'
                 priority:
                     label: oroacademic.issue.priority.label
                     type: entity
@@ -118,15 +118,15 @@ datagrid:
                     label: oroacademic.issue.reporter.label
                     data_name: issue.reporter
                     options:
-                        lazy: @oro_user.provider.filter.user_choice_tree->shouldBeLazy
-                        data: @?oro_user.provider.filter.user_choice_tree->getList
+                        lazy: '@oro_user.provider.filter.user_choice_tree->shouldBeLazy'
+                        data: '@?oro_user.provider.filter.user_choice_tree->getList'
                 assegnee:
                     type: choice-tree
                     label: oroacademic.issue.assignee.label
                     data_name: issue.assignee
                     options:
-                        lazy: @oro_user.provider.filter.user_choice_tree->shouldBeLazy
-                        data: @?oro_user.provider.filter.user_choice_tree->getList
+                        lazy: '@oro_user.provider.filter.user_choice_tree->shouldBeLazy'
+                        data: '@?oro_user.provider.filter.user_choice_tree->getList'
                 createdAt:
                     type:      datetime
                     data_name: issue.createdAt
@@ -143,10 +143,10 @@ datagrid:
                 type:       url
                 route:      oroacademic_issue_update
                 params:     [ id ]
-#            delete_link:
-#                type:       url
-#                route:      oroacademic_issue_delete
-#                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oroacademic_api_delete_issue
+                params:     [ id ]
         actions:
             view:
                 type:          navigate
@@ -161,11 +161,12 @@ datagrid:
                 acl_resource:  oroacademic_issue_update
                 icon:          edit
                 link:          update_link
-#            delete:
-#                type:          delete
-#                label:         oro.grid.action.delete
-#                icon:          trash
-#                link:          delete_link
+            delete:
+                type:          delete
+                label:         oro.grid.action.delete
+                acl_resource:  oroacademic_issue_delete
+                icon:          trash
+                link:          delete_link
         options:
             entity_pagination: true
     sub-issues-grid:

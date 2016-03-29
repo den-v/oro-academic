@@ -1,5 +1,13 @@
-orocrm_task_bundle:
+academic_issue_bundle:
     resource:     "@OroAcademicIssueBundle/Controller"
     type:         annotation
     prefix:       /
 
+academic_issue_bundle_api:
+    resource:     "@OroAcademicIssueBundle/Controller/Api/Rest/IssueController.php"
+    type:         rest
+    prefix:       api/rest/{version}
+    requirements:
+        version:  latest|v1
+    defaults:
+        version:  latest
