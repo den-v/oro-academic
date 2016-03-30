@@ -1,0 +1,2 @@
+classes:
+  - OroAcademic\Bundle\IssueBundle\Controller\Api\Soap\IssueController
