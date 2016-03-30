@@ -1,8 +1,15 @@
 parameters:
     oroacademic_issue.entity.class:                       OroAcademic\Bundle\IssueBundle\Entity\Issue
+    oroacademic_issue.note.listener.class:                OroAcademic\Bundle\IssueBundle\EventListener\NoteListener
 
     oroacademic_issue.types:
         Bug: Bug
         Task: Task
         Subtask: Subtask
         Story: Story
+
+services:
+    oroacademic_issue.note.listener:
+        class: '%oroacademic_issue.note.listener.class%'
+        tags:
+          - { name: doctrine.event_listener, event: prePersist, method: prePersist }

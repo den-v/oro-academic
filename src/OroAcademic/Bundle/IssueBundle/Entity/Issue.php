@@ -50,6 +50,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "grouping"={
  *              "groups"={"activity"}
  *          },
+ *          "note"={
+ *              "enabled"=true
+ *          },
  *          "tag"={
  *              "enabled"=true
  *          },
@@ -625,5 +628,21 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     public function __toString()
     {
         return (string)$this->getCode().": ".$this->getSummary();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function doOnPrePersist()
+    {
+        $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 }
