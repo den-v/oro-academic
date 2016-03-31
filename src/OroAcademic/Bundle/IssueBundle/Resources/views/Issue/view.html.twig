@@ -97,7 +97,20 @@
         'title': '',
         'useSpan': false,
         'data' : [
-        dataGrid.renderGrid('rel-issues-grid', {'id': entity.id})
+        dataGrid.renderGrid('rel-issues-grid', {'ids': entity.relatedIssues})
+        ]
+        }]
+        }] ) %}
+    {% endif %}
+
+    {% if entity.collaborators is not null %}
+        {% set dataBlocks = dataBlocks|merge([{
+        'title': 'oroacademic.issue.collaborators.label'|trans,
+        'subblocks': [{
+        'title': '',
+        'useSpan': false,
+        'data' : [
+        dataGrid.renderGrid('collaborators-grid', {'ids': entity.collaborators})
         ]
         }]
         }] ) %}

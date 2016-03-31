@@ -186,14 +186,24 @@ datagrid:
                 extends: issues-grid
                 source:
                     query:
-                        join:
-                            inner:
-                                - { join: issue.relatedIssues, alias: ri }
                         where:
                             and:
-                                - ri.id = :id
+                                - issue.id IN (:ids)
                     bind_parameters:
-                        - id
+                        - ids
+                filters: ~
+                options:
+                    toolbarOptions:
+                        hide: true
+    collaborators-grid:
+                extends: users-grid
+                source:
+                    query:
+                        where:
+                            and:
+                                - u.id IN (:ids)
+                    bind_parameters:
+                        - ids
                 filters: ~
                 options:
                     toolbarOptions:

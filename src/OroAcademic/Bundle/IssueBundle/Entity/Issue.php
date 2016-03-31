@@ -76,14 +76,6 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     protected $id;
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @var string
      *
      * @ORM\Column(name="summary", type="string", length=255, nullable=true)
@@ -222,6 +214,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      */
     protected $workflowStep;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
+     * @ORM\JoinTable(name="oroacademic_issue_collaborators",
+     *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      )
+     */
     protected $collaborators;
 
     /**
@@ -275,6 +274,23 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      */
     protected $organization;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->collaborators = new ArrayCollection();
+        $this->relatedIssues = new ArrayCollection();
+        $this->children = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * Set organization
      *
@@ -297,15 +313,6 @@ class Issue extends ExtendIssue implements DatesAwareInterface
         return $this->organization;
     }
 
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->collaborators = new ArrayCollection();
-        $this->relatedIssues = new ArrayCollection();
-        $this->children = new ArrayCollection();
-    }
     /**
      * @return int
      */
@@ -540,11 +547,26 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     }
 
     /**
-     * @param Collection $collaborators
+     * Add Collaborator
+     * 
+     * @param User $collaborator
      */
-    public function setCollaborators($collaborators)
+    public function addCollaborator(User $collaborator)
     {
-        $this->collaborators = $collaborators;
+        $collaborators = $this->getCollaborators();
+        if (!$collaborators->contains($collaborator)) {
+            $this->collaborators->add($collaborator);
+        }
+    }
+
+    /**
+     * Remove Collaborator
+     *
+     * @param User $collaborator
+     */
+    public function removeCollaborator(User $collaborator)
+    {
+        $this->collaborators->removeElement($collaborator);
     }
 
     /**
@@ -633,16 +655,22 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     /**
      * @ORM\PrePersist
      */
-    public function doOnPrePersist()
+    public function prePersist()
     {
         $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
-        $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->preUpdate();
     }
+
     /**
      * @ORM\PreUpdate
      */
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+
+    public function getClass()
+    {
+        return static::class;
     }
 }

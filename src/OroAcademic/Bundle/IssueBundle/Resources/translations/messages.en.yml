@@ -18,6 +18,7 @@ oroacademic:
             assignee.label:             Assigned To
             reporter.label:             Reported By
             related.label:              Related Issues
+            collaborators.label:        Involved Users
 
             saved_message:              Issue Successfuly Saved
 

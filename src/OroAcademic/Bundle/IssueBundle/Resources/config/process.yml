@@ -1,0 +1,42 @@
+definitions:
+    oroacademic_issue_collaborators:
+        label: 'Issue Collaborators Definition'
+        enabled: true
+        entity: OroAcademic\Bundle\IssueBundle\Entity\Issue
+        actions_configuration:
+            - @call_method:
+                            parameters:
+                                object: $.data
+                                method: addCollaborator
+                                method_parameters: [$.data.reporter]
+            - @call_method:
+                            parameters:
+                                object: $.data
+                                method: addCollaborator
+                                method_parameters: [$.data.assignee]
+    oroacademic_note_collaborators:
+        label: 'Note Collaborators Definition'
+        enabled: true
+        entity: Oro\Bundle\NoteBundle\Entity\Note
+        actions_configuration:
+            - @call_method:
+                            conditions:
+                                 @equal: [$.data.target.class, 'OroAcademic\Bundle\IssueBundle\Entity\Issue']
+                            parameters:
+                                 object: $.data.target
+                                 method: addCollaborator
+                                 method_parameters: [$.data.owner]
+
+triggers:
+    oroacademic_issue_collaborators:
+        -
+            event: create
+        -
+            event: update
+            field: assignee
+        -
+            event: update
+            field: reporter
+    oroacademic_note_collaborators:
+        -
+            event: create
