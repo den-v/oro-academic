@@ -58,6 +58,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          },
  *          "grid"={
  *              "default"="issues-grid",
+ *          },
+ *          "workflow"={
+ *              "active_workflow"="oroacademic_issue_flow"
  *          }
  *      }
  * )
@@ -516,10 +519,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param WorkflowItem $workflowItem
+     * @return Issue
      */
     public function setWorkflowItem($workflowItem)
     {
         $this->workflowItem = $workflowItem;
+
+        return $this;
     }
 
     /**
@@ -531,11 +537,14 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     }
 
     /**
-     * @param WorkflowStep $workflowStep
+     * @param WorkflowItem $workflowStep
+     * @return Issue
      */
     public function setWorkflowStep($workflowStep)
     {
         $this->workflowStep = $workflowStep;
+
+        return $this;
     }
 
     /**
