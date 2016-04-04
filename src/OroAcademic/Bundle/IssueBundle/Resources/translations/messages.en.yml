@@ -8,6 +8,7 @@ oroacademic:
             #
             entity_label:               Issue
             entity_plural_label:        Issues
+            id.label:                   Id
             code.label:                 Code
             summary.label:              Summary
             type.label:                 Type
@@ -19,6 +20,20 @@ oroacademic:
             reporter.label:             Reported By
             related.label:              Related Issues
             collaborators.label:        Involved Users
+            organization.label:         Organization
+            parent.label:               Parent
+            children.label:             Children
+
+            issuepriority:
+                        entity_label:   Issue Priority
+                        name.label:     Name
+                        label.label:    Label
+                        order.label:    Order
+
+            issueresolution:
+                        entity_label:   Issue Resolution
+                        name.label:     Name
+                        label.label:    Label
 
             saved_message:              Issue Successfuly Saved
 

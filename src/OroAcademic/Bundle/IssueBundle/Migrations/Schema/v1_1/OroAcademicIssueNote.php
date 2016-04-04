@@ -16,10 +16,18 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
-class OroAcademicIssueBundle implements Migration, NoteExtensionAwareInterface
+class OroAcademicIssueNote implements Migration, NoteExtensionAwareInterface
 {
     /** @var NoteExtension */
     protected $noteExtension;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMigrationVersion()
+    {
+        return 'v1_2';
+    }
 
     /**
      * {@inheritdoc}
@@ -36,7 +44,4 @@ class OroAcademicIssueBundle implements Migration, NoteExtensionAwareInterface
     {
         $this->noteExtension->addNoteAssociation($schema, 'oroacademic_issue');
     }
-}
-{
-
 }

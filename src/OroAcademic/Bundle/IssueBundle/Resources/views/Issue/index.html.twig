@@ -4,6 +4,14 @@
 {% set pageTitle = 'oroacademic.issue.menu.label'|trans %}
 
 {% block navButtons %}
+    {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+    entity_class: entity_class,
+    exportProcessor: 'oroacademic_issue_export',
+    exportTemplateProcessor: 'oroacademic_issue_template',
+    importProcessor: 'oroacademic_issue_import',
+    dataGridName: gridName
+    } %}
+
     {% if resource_granted('oroacademic_issue_create') %}
         {{ UI.addButton({
             'path' : path('oroacademic_issue_create'),
