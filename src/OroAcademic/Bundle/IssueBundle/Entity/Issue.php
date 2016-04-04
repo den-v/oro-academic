@@ -75,6 +75,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *    defaultValues={
+     *        "importexport"={
+     *            "order"="0"
+     *        }
+     *    }
+     * )
      */
     protected $id;
 
@@ -87,6 +94,10 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "header"="Summary",
+     *              "order"="30"
      *          }
      *      }
      * )
@@ -100,6 +111,10 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "header"="Code",
+     *              "order"="20"
      *          }
      *      }
      * )
@@ -113,6 +128,10 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "header"="Description",
+     *              "order"="40"
      *          }
      *      }
      * )
@@ -129,6 +148,10 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "header"="Type",
+     *              "order"="50"
      *          }
      *      }
      * )
@@ -139,9 +162,14 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *
      * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="IssuePriority")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="priority", referencedColumnName="name")
-     * })
+     * @ORM\JoinColumns({ @ORM\JoinColumn(name="priority", referencedColumnName="name") })
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"="60"
+     *          }
+     *      }
+     * )
      */
     protected $priority;
     /**
@@ -151,6 +179,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="resolution", referencedColumnName="name")
      * })
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "excluded"=true
+     *      }
+     *  }
+     * )
      */
     protected $resolution;
 
@@ -164,6 +199,10 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "header"="Reporter",
+     *              "order"="70"
      *          }
      *      }
      * )
@@ -180,6 +219,10 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "header"="Assignee",
+     *              "order"="80"
      *          }
      *      }
      * )
@@ -191,6 +234,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *
      * @ORM\ManyToOne(targetEntity="Issue", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ConfigField(
+     *  defaultValues={
+     *          "importexport"={
+     *              "order"="90"
+     *          }
+     *  }
+     * )
      */
     protected $parent;
 
@@ -198,6 +248,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      * @var Issue
      *
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent")
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "excluded"=true
+     *      }
+     *  }
+     * )
      */
     protected $children;
 
@@ -206,6 +263,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *
      * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
      * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "excluded"=true
+     *      }
+     *  }
+     * )
      */
     protected $workflowItem;
 
@@ -214,6 +278,13 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
      * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "excluded"=true
+     *      }
+     *  }
+     * )
      */
     protected $workflowStep;
 
@@ -223,18 +294,39 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *      )
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "excluded"=true
+     *      }
+     *  }
+     * )
      */
     protected $collaborators;
 
     /**
      * @ORM\ManyToMany(targetEntity="Issue", inversedBy="issuesRelated")
      * @ORM\JoinTable(name="oroacademic_issue_related")
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "excluded"=true
+     *      }
+     *  }
+     * )
      **/
     protected $relatedIssues;
 
     /**
      * @ORM\ManyToMany(targetEntity="Issue", mappedBy="relatedIssues")
-     **/
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "excluded"=true
+     *      }
+     *  }
+     * )
+     */
     protected $issuesRelated;
 
     /**
@@ -245,6 +337,9 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "entity"={
      *              "label"="oro.ui.created_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -259,6 +354,9 @@ class Issue extends ExtendIssue implements DatesAwareInterface
      *      defaultValues={
      *          "entity"={
      *              "label"="oro.ui.updated_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -273,6 +371,14 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     /**
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
      * @ORM\JoinColumn(name="organization_id", referencedColumnName="id")
+     * )
+     * @ConfigField(
+     *    defaultValues={
+     *        "importexport"={
+     *            "header"="Organization",
+     *            "order"="100"
+     *        }
+     *    }
      * )
      */
     protected $organization;
@@ -651,6 +757,16 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     public function removeRelatedIssue(Issue $relatedIssue)
     {
         $this->relatedIssues->removeElement($relatedIssue);
+    }
+
+    /**
+     * Get relatedIssues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIssuesRelated()
+    {
+        return $this->issuesRelated;
     }
 
     /**
