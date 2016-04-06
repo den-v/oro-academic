@@ -2,6 +2,7 @@
 
 namespace OroAcademic\Bundle\IssueBundle\Controller;
 
+use Oro\Bundle\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -45,6 +46,7 @@ class IssueController extends Controller
     {
         $issue = new Issue();
         $parentId = $this->get('request_stack')->getCurrentRequest()->get('id', 0);
+        $userId = $this->get('request_stack')->getCurrentRequest()->get('userId', 0);
         if ((int)$parentId > 0) {
             $parent = $this
                 ->getDoctrine()
@@ -60,6 +62,17 @@ class IssueController extends Controller
                     'oroacademic_subissue_create',
                     $this->get('request_stack')->getCurrentRequest(),
                     ['id' => $parentId]
+                );
+        } elseif ((int)$userId > 0) {
+            $user = $this
+                ->getDoctrine()
+                ->getRepository('OroUserBundle:User')
+                ->findOneBy(['id' => $userId]);
+            $issue->setAssignee($user);
+            $formAction = $this->get('oro_entity.routing_helper')
+                ->generateUrlByRequest(
+                    'oroacademic_issue_create',
+                    $this->get('request_stack')->getCurrentRequest()
                 );
         } else {
             $formAction = $this->get('oro_entity.routing_helper')
@@ -146,5 +159,15 @@ class IssueController extends Controller
             'form'       => $form,
             'formAction' => $formAction,
         );
+    }
+
+    /**
+     * @Route("/user/{userId}", name="oroacademic_issue_users", requirements={"userId"="\d+"})
+     * @AclAncestor("oroacademic_issue_view")
+     * @Template
+     */
+    public function userIssuesAction($userId)
+    {
+        return ['userId' => $userId];
     }
 }

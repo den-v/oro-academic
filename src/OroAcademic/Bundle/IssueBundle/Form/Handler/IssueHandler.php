@@ -89,6 +89,9 @@ class IssueHandler
     {
         if ($entity->getId() || $entity->getParent()) {
             $this->form->remove('type');
+        } elseif ($entity->getAssignee()) {
+            $entity
+                ->setReporter($currentUser);
         } else {
             $entity
                 ->setReporter($currentUser)

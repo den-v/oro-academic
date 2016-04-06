@@ -3,6 +3,10 @@ oroacademic:
             menu:
                 label:  Issues
 
+            actions:
+                create: Create Issue
+                update: Update Issue
+                delete: Delete Issue
             #
             # OroAcademic/Bundle/IssueBundle/Entity/Issue
             #
@@ -23,6 +27,7 @@ oroacademic:
             organization.label:         Organization
             parent.label:               Parent
             children.label:             Children
+            user_issues.label:          User Issues
 
             issuepriority:
                         entity_label:   Issue Priority

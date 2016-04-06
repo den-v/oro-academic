@@ -215,3 +215,16 @@ datagrid:
                 options:
                     toolbarOptions:
                         hide: true
+    user-issues-grid:
+                extends: issues-grid
+                source:
+                    query:
+                        where:
+                            and:
+                                - issue.assignee = :userId or issue.reporter = :userId
+                    bind_parameters:
+                        - userId
+                filters: ~
+                options:
+                    toolbarOptions:
+                        hide: true
