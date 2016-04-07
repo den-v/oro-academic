@@ -1,0 +1,18 @@
+oro_dashboard_config:
+    widgets:
+        issues_by_state:
+            label:       Issues by Status
+            route:       oroacademic_dashboard_issues_by_state_chart
+            acl:         oroacademic_issue_view
+            description: Issues by Status
+            configuration:
+                dateRange:
+                    type: oro_type_widget_date_range
+                    options:
+                       label: oro.dashboard.date_range.label
+                    show_on_widget: true
+        issues_widget:
+            label:       Resent Active Issues
+            route:       oroacademic_dashboard_issues_widget_grid
+            acl:         oroacademic_issue_view
+            description: Resent Active Issues where current user collaborator

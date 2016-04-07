@@ -3,6 +3,11 @@ academic_issue_bundle:
     type:         annotation
     prefix:       /
 
+academic_issue_dashboard:
+    resource:     "@OroAcademicIssueBundle/Controller/Dashboard"
+    type:         annotation
+    prefix:       /dashboard
+
 academic_issue_bundle_api:
     resource:     "@OroAcademicIssueBundle/Controller/Api/Rest/IssueController.php"
     type:         rest

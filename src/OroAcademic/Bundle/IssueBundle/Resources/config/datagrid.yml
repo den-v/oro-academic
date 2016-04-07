@@ -19,6 +19,7 @@ datagrid:
                     - rpt.id as reporter
                     - CONCAT(asg.firstName, CONCAT(' ', asg.lastName)) as assigneeName
                     - asg.id as assignee
+                    - collaborators.id as collaborator
                     - issue.createdAt
                     - issue.updatedAt
                 from:
@@ -30,6 +31,7 @@ datagrid:
                         - { join: issue.reporter, alias: rpt }
                         - { join: issue.assignee, alias: asg }
                         - { join: issue.workflowStep, alias: workflowStep }
+                        - { join: issue.collaborators, alias: collaborators }
         inline_editing:
             enable: true
         columns:
@@ -109,6 +111,7 @@ datagrid:
                     options:
                         field_type: oro_workflow_step_select
                         field_options:
+                            multiple: true
                             workflow_entity_class: '%oroacademic_issue.entity.class%'
                 resolution:
                     label: oroacademic.issue.resolution.label
@@ -131,6 +134,13 @@ datagrid:
                     type: choice-tree
                     label: oroacademic.issue.assignee.label
                     data_name: issue.assignee
+                    options:
+                        lazy: '@oro_user.provider.filter.user_choice_tree->shouldBeLazy'
+                        data: '@?oro_user.provider.filter.user_choice_tree->getList'
+                collaborators:
+                    label:     Collaborators
+                    type:      choice-tree
+                    data_name: collaborator
                     options:
                         lazy: '@oro_user.provider.filter.user_choice_tree->shouldBeLazy'
                         data: '@?oro_user.provider.filter.user_choice_tree->getList'
@@ -228,3 +238,20 @@ datagrid:
                 options:
                     toolbarOptions:
                         hide: true
+    widget-issues-grid:
+                extends: issues-grid
+                source:
+                    query:
+                        where:
+                            and:
+                                - collaborators.id = :userId
+                                - workflowStep.name NOT IN ('closed', 'resolved')
+                    bind_parameters:
+                        - userId
+                filters: ~
+                options:
+                    toolbarOptions:
+                        hide: true
+                        pageSize:
+                            items: [10]
+                            default_per_page: 10

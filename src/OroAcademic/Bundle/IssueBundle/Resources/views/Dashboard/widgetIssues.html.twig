@@ -1,0 +1,17 @@
+{% extends 'OroDashboardBundle:Dashboard:widget.html.twig' %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% block content %}
+    {{ dataGrid.renderGrid('widget-issues-grid', {'userId': entity.id}) }}
+{% endblock %}
+
+{% block actions %}
+    {% set actions = [{
+        'url': path('oroacademic_issue_index', {'grid':{'issues-grid':{'p':100, 'f':{'workflowStepLabel':{'value':{0:1, 1:2, 2:5}}, 'collaborators':{'value': entity.id}}}|url_encode}}),
+        'type': 'link',
+        'label': 'View All'
+    }] %}
+
+    {{ parent() }}
+{% endblock %}
+
