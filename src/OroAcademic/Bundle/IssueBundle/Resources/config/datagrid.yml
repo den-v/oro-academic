@@ -245,7 +245,7 @@ datagrid:
                         where:
                             and:
                                 - collaborators.id = :userId
-                                - workflowStep.name NOT IN ('closed', 'resolved')
+                                - workflowStep.name NOT IN ('closed')
                     bind_parameters:
                         - userId
                 filters: ~

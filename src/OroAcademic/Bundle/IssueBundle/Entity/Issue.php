@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ * @ORM\EntityListeners({"OroAcademic\Bundle\IssueBundle\EventListener\IssueEntityListener"})
  * @ORM\Table(
  *      name="oroacademic_issue",
  *      indexes={

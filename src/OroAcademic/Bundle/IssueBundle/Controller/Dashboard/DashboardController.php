@@ -40,7 +40,6 @@ class DashboardController extends Controller
                             'field_name' => 'issues'
                         )
                     ),
-                    'settings' => array('xNoTicks' => 2),
                 )
             )
             ->getView();
@@ -55,7 +54,7 @@ class DashboardController extends Controller
      * @param $widget
      * @return array $widgetAttr
      */
-    public function issueShortGridAction($widget)
+    public function issueWidgetGridAction($widget)
     {
         $widgetAttr = $this->get('oro_dashboard.widget_configs')->getWidgetAttributesForTwig($widget);
         $widgetAttr['entity'] = $this->getUser();

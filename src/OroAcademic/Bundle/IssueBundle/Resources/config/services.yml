@@ -1,6 +1,7 @@
 parameters:
     oroacademic_issue.entity.class:                       OroAcademic\Bundle\IssueBundle\Entity\Issue
     oroacademic_issue.note.listener.class:                OroAcademic\Bundle\IssueBundle\EventListener\NoteListener
+    oroacademic_issue.entity.listener.class:              OroAcademic\Bundle\IssueBundle\EventListener\IssueEntityListener
 
     oroacademic_issue.types:
         Bug: Bug
@@ -13,3 +14,10 @@ services:
         class: '%oroacademic_issue.note.listener.class%'
         tags:
           - { name: doctrine.event_listener, event: prePersist, method: prePersist }
+
+    oroacademic_issue.entity.listener:
+        class: '%oroacademic_issue.entity.listener.class%'
+        arguments:
+            - '@oro_navigation.content.topic_sender'
+        tags:
+            - { name: doctrine.orm.entity_listener }
