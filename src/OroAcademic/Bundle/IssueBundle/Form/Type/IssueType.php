@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Oro\Bundle\FormBundle\Utils\FormUtils;
 use OroAcademic\Bundle\IssueBundle\Entity\Issue;
 
 class IssueType extends AbstractType
@@ -68,10 +67,7 @@ class IssueType extends AbstractType
                 [
                     'label' => 'oroacademic.issue.priority.label',
                     'class' => 'OroAcademic\Bundle\IssueBundle\Entity\IssuePriority',
-                    'required' => true,
-                    'query_builder' => function (EntityRepository $repository) {
-                        return $repository->createQueryBuilder('priority')->orderBy('priority.order');
-                    }
+                    'required' => true
                 ]
             )
             ->add(
@@ -92,6 +88,31 @@ class IssueType extends AbstractType
                     'required' => false
                 ]
             );
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $issue = $event->getData();
+            $form = $event->getForm();
+
+            // check if Issue object is not "new"
+            if ($issue && null !== $issue->getId()) {
+                $form->remove('relatedIssues');
+                $form
+                    ->add(
+                        'relatedIssues',
+                        'translatable_entity',
+                        [
+                        'label' => 'oroacademic.issue.related.label',
+                        'class' => 'OroAcademic\Bundle\IssueBundle\Entity\Issue',
+                        'multiple' => true,
+                        'required' => false,
+                        'query_builder' => function (EntityRepository $repository) use ($issue) {
+                            return $repository->createQueryBuilder('issue')
+                                ->andWhere('issue.id != :id')
+                                ->setParameter(':id', $issue->getId());
+                        }
+                        ]
+                    );
+            }
+        });
     }
 
     /**

@@ -75,5 +75,4 @@ class IssueRepository extends EntityRepository
 
         return $resultData;
     }
-
 }

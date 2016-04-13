@@ -8,7 +8,6 @@
 
 namespace OroAcademic\Bundle\IssueBundle\Controller\Api\Soap;
 
-
 use Symfony\Component\Form\FormInterface;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;

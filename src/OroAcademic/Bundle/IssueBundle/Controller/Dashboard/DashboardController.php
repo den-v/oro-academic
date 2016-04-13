@@ -24,7 +24,7 @@ class DashboardController extends Controller
             ->getIssuesByStatus(
                 $this->get('oro_security.acl_helper'),
                 $this->get('oro_dashboard.widget_configs')
-                    ->getWidgetOptions($this->getRequest()->query->get('_widgetId', null))
+                    ->getWidgetOptions($this->get('request_stack')->getCurrentRequest()->query->get('_widgetId', null))
                     ->get('dateRange')
             );
 
@@ -48,7 +48,9 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/issues_widget_grid/{widget}", name="oroacademic_dashboard_issues_widget_grid", requirements={"widget"="[\w-]+"})
+     * @Route("/issues_widget_grid/{widget}",
+     *      name="oroacademic_dashboard_issues_widget_grid",
+     *      requirements={"widget"="[\w-]+"})
      * @Template("OroAcademicIssueBundle:Dashboard:widgetIssues.html.twig")
      *
      * @param $widget

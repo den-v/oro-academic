@@ -94,6 +94,8 @@ class IssueController extends Controller
      *      permission="VIEW"
      * )
      * @Template
+     * @param Issue $issue
+     * @return array
      */
     public function viewAction(Issue $issue)
     {
@@ -165,6 +167,8 @@ class IssueController extends Controller
      * @Route("/user/{userId}", name="oroacademic_issue_users", requirements={"userId"="\d+"})
      * @AclAncestor("oroacademic_issue_view")
      * @Template
+     * @param int $userId
+     * @return array
      */
     public function userIssuesAction($userId)
     {

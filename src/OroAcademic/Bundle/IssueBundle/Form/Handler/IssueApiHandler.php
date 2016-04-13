@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use OroAcademic\Bundle\IssueBundle\Entity\Issue;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
+
 class IssueApiHandler
 {
     /**
@@ -21,7 +22,10 @@ class IssueApiHandler
      * @var ObjectManager
      */
     protected $manager;
-    /** @var SecurityFacade */
+    
+    /**
+     * @var SecurityFacade
+     */
     protected $securityFacade;
     /**
      * @param FormInterface $form

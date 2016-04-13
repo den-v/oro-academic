@@ -2,15 +2,9 @@
 
 namespace OroAcademic\Bundle\IssueBundle\Form\Handler;
 
-use Oro\Bundle\FormBundle\Utils\FormUtils;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Oro\Bundle\ActivityBundle\Manager\ActivityManager;
-use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
-
 use OroAcademic\Bundle\IssueBundle\Entity\Issue;
 
 class IssueHandler

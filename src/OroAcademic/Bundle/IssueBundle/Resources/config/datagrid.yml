@@ -19,7 +19,7 @@ datagrid:
                     - rpt.id as reporter
                     - CONCAT(asg.firstName, CONCAT(' ', asg.lastName)) as assigneeName
                     - asg.id as assignee
-                    - collaborators.id as collaborator
+                    - GROUP_CONCAT(collaborators.id) as collaborator
                     - issue.createdAt
                     - issue.updatedAt
                 from:
@@ -32,6 +32,7 @@ datagrid:
                         - { join: issue.assignee, alias: asg }
                         - { join: issue.workflowStep, alias: workflowStep }
                         - { join: issue.collaborators, alias: collaborators }
+                groupBy: issue.code
         inline_editing:
             enable: true
         columns:
@@ -140,7 +141,7 @@ datagrid:
                 collaborators:
                     label:     Collaborators
                     type:      choice-tree
-                    data_name: collaborator
+                    data_name: collaborators.id
                     options:
                         lazy: '@oro_user.provider.filter.user_choice_tree->shouldBeLazy'
                         data: '@?oro_user.provider.filter.user_choice_tree->getList'

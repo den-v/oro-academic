@@ -16,7 +16,7 @@ services:
             class: '%oroacademic_issue.form.type.issue_api.class%'
             arguments: ['%oroacademic_issue.types%']
             tags:
-                - { name: form.type, alias: oroacademic_issue_api }
+                - { name: form.type, alias: issue }
 
     oroacademic_issue.form:
         class: Symfony\Component\Form\Form
@@ -29,8 +29,8 @@ services:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', 'createNamed']
         arguments:
-            - oroacademic_issue_api
-            - oroacademic_issue_api
+            - issue
+            - issue
 
     oroacademic_issue.form.handler.issue:
         class: '%oroacademic_issue.form.handler.issue.class%'

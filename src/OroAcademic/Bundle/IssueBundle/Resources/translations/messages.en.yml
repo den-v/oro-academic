@@ -40,7 +40,7 @@ oroacademic:
                         name.label:     Name
                         label.label:    Label
 
-            saved_message:              Issue Successfuly Saved
+            saved_message:              Issue Successfully Saved
 
         subissue:
             entity_label:               Sub-Task

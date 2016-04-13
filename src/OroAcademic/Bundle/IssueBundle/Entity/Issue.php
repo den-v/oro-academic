@@ -664,7 +664,7 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * Add Collaborator
-     * 
+     *
      * @param User $collaborator
      */
     public function addCollaborator(User $collaborator)
@@ -725,6 +725,19 @@ class Issue extends ExtendIssue implements DatesAwareInterface
     public function isUpdatedAtSet()
     {
         return $this->updatedAtSet;
+    }
+
+    /**
+     * Add Related Issue
+     *
+     * @param Issue $issue
+     */
+    public function addRelatedIssue(Issue $issue)
+    {
+        $relatedIssues = $this->getRelatedIssues();
+        if (!$relatedIssues->contains($issue)) {
+            $this->relatedIssues->add($issue);
+        }
     }
 
     /**

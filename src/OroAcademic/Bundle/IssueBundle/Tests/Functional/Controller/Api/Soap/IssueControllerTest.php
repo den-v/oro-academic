@@ -14,10 +14,11 @@ class IssueControllerTest extends WebTestCase
      * @var array
      */
     protected $issue = [
-        'subject' => 'Soap task',
         'code' => 'BB-8888',
+        'summary' => 'Soap task',
         'description' => 'Soap Issue description',
-        'taskPriority' => 'high',
+        'type' => 'Bug',
+        'priority' => 'low',
         'reporter' => 1,
         'assignee' => 1,
     ];
@@ -29,60 +30,60 @@ class IssueControllerTest extends WebTestCase
         $this->initSoapClient();
     }
 
-    /*/**
+    /**
      * @return integer
      */
-    public function testIssueCreate()
+    public function testCreate()
     {
         $result = $this->soapClient->createIssue($this->issue);
         $this->assertTrue((bool) $result, $this->soapClient->__getLastResponse());
-
+        
         return $result;
     }
 
     /**
-     * @depends issueCreate
+     * @depends testCreate
      */
-    public function issueCget()
+    public function testCget()
     {
-        $tasks = $this->soapClient->getIssues();
-        $tasks = $this->valueToArray($tasks);
-        $this->assertCount(1, $tasks);
+        $issues = $this->soapClient->getIssues();
+        $issues = $this->valueToArray($issues);
+        $this->assertCount(1, $issues);
     }
 
     /**
      * @param integer $id
-     * @depends issueCreate
+     * @depends testCreate
      */
-    public function issueGet($id)
+    public function testGet($id)
     {
-        $task = $this->soapClient->getIssue($id);
-        $task = $this->valueToArray($task);
-        $this->assertEquals($this->issue['summary'], $task['summary']);
+        $issue = $this->soapClient->getIssue($id);
+        $issue = $this->valueToArray($issue);
+        $this->assertEquals($this->issue['summary'], $issue['summary']);
     }
 
     /**
      * @param integer $id
-     * @depends issueCreate
+     * @depends testCreate
      */
-    public function issueUpdate($id)
+    public function testUpdate($id)
     {
-        $task =  array_merge($this->issue, ['summary' => 'Updated subject']);
+        $issue =  array_merge($this->issue, ['summary' => 'Updated summary']);
 
-        $result = $this->soapClient->updateIssue($id, $task);
+        $result = $this->soapClient->updateIssue($id, $issue);
         $this->assertTrue($result);
 
-        $updatedTask = $this->soapClient->getIssue($id);
-        $updatedTask = $this->valueToArray($updatedTask);
+        $updatedIssue = $this->soapClient->getIssue($id);
+        $updatedIssue = $this->valueToArray($updatedIssue);
 
-        $this->assertEquals($task['summary'], $updatedTask['summary']);
+        $this->assertEquals($issue['summary'], $updatedIssue['summary']);
     }
 
     /**
      * @param integer $id
-     * @depends issueCreate
+     * @depends testCreate
      */
-    public function issueDelete($id)
+    public function testDelete($id)
     {
         $result = $this->soapClient->deleteIssue($id);
         $this->assertTrue($result);

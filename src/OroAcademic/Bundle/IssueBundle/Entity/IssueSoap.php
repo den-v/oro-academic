@@ -104,21 +104,21 @@ class IssueSoap extends Issue implements SoapEntityInterface
     public function soapInit($issue)
     {
         $this->id = $issue->id;
-        $this->subject = $issue->summary;
+        $this->summary = $issue->summary;
         $this->code = $issue->code;
         $this->description = $issue->description;
         $this->type = $issue->type;
         $this->priority = $issue->priority ? $issue->priority->getName() : null;
         $this->resolution = $issue->resolution ? $issue->resolution->getName() : null;
-        $issue->reporter = $this->getEntityId($issue->reporter);
-        $issue->assignee = $this->getEntityId($issue->assignee);
-        $issue->parent = $this->getEntityId($issue->parent);
-        $issue->children = $this->cgetEntityId($issue->children);
+        $this->reporter = $this->getEntityId($issue->reporter);
+        $this->assignee = $this->getEntityId($issue->assignee);
+        $this->parent = $this->getEntityId($issue->parent);
+        $this->children = $this->cgetEntityId($issue->children);
         $this->createdAt = $issue->createdAt;
         $this->updatedAt = $issue->updatedAt;
-        $issue->workflowItem = $this->getEntityId($issue->workflowItem);
-        $issue->workflowStep = $this->getEntityId($issue->workflowStep);
-        $issue->relatedIssues = $this->cgetEntityId($issue->relatedIssues);
+        $this->workflowItem = $this->getEntityId($issue->workflowItem);
+        $this->workflowStep = $this->getEntityId($issue->workflowStep);
+        //$this->relatedIssues = $this->cgetEntityId($issue->relatedIssues);
     }
 
     /**
