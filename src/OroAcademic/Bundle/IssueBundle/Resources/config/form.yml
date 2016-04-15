@@ -8,13 +8,13 @@ parameters:
 services:
     oroacademic_issue.form.type.issue:
         class: '%oroacademic_issue.form.type.issue.class%'
-        arguments: ['%oroacademic_issue.types%']
+        arguments: ['@oroacademic_issue.types.provider']
         tags:
             - { name: form.type, alias: oroacademic_issue }
 
     oroacademic_issue.form.type.issue_api:
             class: '%oroacademic_issue.form.type.issue_api.class%'
-            arguments: ['%oroacademic_issue.types%']
+            arguments: ['@oroacademic_issue.types.provider']
             tags:
                 - { name: form.type, alias: issue }
 

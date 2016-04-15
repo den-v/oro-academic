@@ -3,10 +3,7 @@
 namespace OroAcademic\Bundle\IssueBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use OroAcademic\Bundle\IssueBundle\Entity\Issue;
 
 class IssueRepository extends EntityRepository
 {

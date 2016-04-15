@@ -8,19 +8,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use OroAcademic\Bundle\IssueBundle\Entity\Issue;
+use OroAcademic\Bundle\IssueBundle\Provider\IssueTypesProvider;
 
 class IssueType extends AbstractType
 {
+    const NAME = 'oroacademic_issue';
 
+    /**
+     * @var array
+     */
     private $issueTypes;
 
-    public function __construct(array $issueTypes)
+    public function __construct(IssueTypesProvider $issueTypesProvider)
     {
-        $this->issueTypes = $issueTypes;
+        $this->issueTypes = $issueTypesProvider->getIssueTypes('main');
     }
     /**
      * {@inheritdoc}
@@ -63,7 +68,7 @@ class IssueType extends AbstractType
             )
             ->add(
                 'priority',
-                'translatable_entity',
+                'entity',
                 [
                     'label' => 'oroacademic.issue.priority.label',
                     'class' => 'OroAcademic\Bundle\IssueBundle\Entity\IssuePriority',
@@ -118,7 +123,7 @@ class IssueType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
@@ -132,6 +137,6 @@ class IssueType extends AbstractType
      */
     public function getName()
     {
-        return 'oroacademic_issue';
+        return self::NAME;
     }
 }

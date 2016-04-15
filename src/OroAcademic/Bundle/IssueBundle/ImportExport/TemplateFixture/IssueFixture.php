@@ -41,8 +41,6 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
     {
         $userRepo         = $this->templateManager
             ->getEntityRepository('Oro\Bundle\UserBundle\Entity\User');
-        $priorityRepo     = $this->templateManager
-            ->getEntityRepository('OroAcademic\Bundle\IssueBundle\Entity\IssuePriority');
         $organizationRepo = $this->templateManager
             ->getEntityRepository('Oro\Bundle\OrganizationBundle\Entity\Organization');
 

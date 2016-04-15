@@ -229,18 +229,27 @@ class LoadIssueData extends AbstractFixture implements DependentFixtureInterface
      */
     public function loadIssues()
     {
+        /**
+         * @var User $randomAssignee
+         * @var User $randomReporter
+         * @var Issue $randomIssue
+         * @var IssuePriority $randomPriority
+         */
         foreach ($this->data as $data) {
             $existIssues = $this->em->getRepository('OroAcademicIssueBundle:Issue')->findAll();
+            $randomAssignee = $this->getRandomEntity($this->users);
+            $randomReporter = $this->getRandomEntity($this->users);
+            $randomPriority = $this->getRandomEntity($this->priorities);
 
             $issue = new Issue();
             
             $issue->setSummary($data['summary']);
             $issue->setCode($data['code']);
-            $issue->setDescription($data['summary']);
-            $issue->setAssignee($this->getRandomEntity($this->users));
-            $issue->setReporter($this->getRandomEntity($this->users));
+            $issue->setDescription($data['summary']." Description");
+            $issue->setAssignee($randomAssignee);
+            $issue->setReporter($randomReporter);
             $issue->setType($data['type']);
-            $issue->setPriority($this->getRandomEntity($this->priorities));
+            $issue->setPriority($randomPriority);
             $issue->setOrganization($this->organization);
             if ($data['type'] == 'Subtask' && $data['parent']) {
                 $parent = $this->em
@@ -251,7 +260,8 @@ class LoadIssueData extends AbstractFixture implements DependentFixtureInterface
             }
             for ($i = 1; $i <= $data['related']; $i++) {
                 if ($existIssues) {
-                    $issue->addRelatedIssue($this->getRandomEntity($existIssues));
+                    $randomIssue = $this->getRandomEntity($existIssues);
+                    $issue->addRelatedIssue($randomIssue);
                 }
             }
             $this->persist($issue);

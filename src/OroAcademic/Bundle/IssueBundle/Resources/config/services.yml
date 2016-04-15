@@ -2,14 +2,20 @@ parameters:
     oroacademic_issue.entity.class:                       OroAcademic\Bundle\IssueBundle\Entity\Issue
     oroacademic_issue.note.listener.class:                OroAcademic\Bundle\IssueBundle\EventListener\NoteListener
     oroacademic_issue.entity.listener.class:              OroAcademic\Bundle\IssueBundle\EventListener\IssueEntityListener
+    oroacademic_issue.types.provider.class:               OroAcademic\Bundle\IssueBundle\Provider\IssueTypesProvider
 
     oroacademic_issue.types:
-        Bug: Bug
-        Task: Task
-        Subtask: Subtask
-        Story: Story
+        - { name: Bug, type: main }
+        - { name: Task, type: main }
+        - { name: Subtask, type: sub }
+        - { name: Story, type: main }
 
 services:
+    oroacademic_issue.types.provider:
+        class: '%oroacademic_issue.types.provider.class%'
+        arguments:
+            - '%oroacademic_issue.types%'
+
     oroacademic_issue.note.listener:
         class: '%oroacademic_issue.note.listener.class%'
         tags:

@@ -95,7 +95,7 @@ datagrid:
                     options:
                         field_options:
                               multiple: true
-                              choices: '%oroacademic_issue.types%'
+                              choices: "@oroacademic_issue.types.provider->getIssueTypes('all')"
                 priority:
                     label: oroacademic.issue.priority.label
                     type: entity
