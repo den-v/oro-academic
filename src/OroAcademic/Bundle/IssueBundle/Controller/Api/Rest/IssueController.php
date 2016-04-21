@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vdenchyk
- * Date: 29/03/16
- * Time: 10:47
- */
 
 namespace OroAcademic\Bundle\IssueBundle\Controller\Api\Rest;
 

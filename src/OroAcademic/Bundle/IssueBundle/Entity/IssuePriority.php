@@ -52,10 +52,12 @@ class IssuePriority
 
     /**
      * @param string $name
+     * @return IssuePriority
      */
-    public function __construct($name)
+    public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**

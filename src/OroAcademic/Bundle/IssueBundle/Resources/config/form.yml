@@ -8,26 +8,32 @@ parameters:
 services:
     oroacademic_issue.form.type.issue:
         class: '%oroacademic_issue.form.type.issue.class%'
-        arguments: ['@oroacademic_issue.types.provider']
+        arguments:
+            - '@oroacademic_issue.types.provider'
         tags:
             - { name: form.type, alias: oroacademic_issue }
 
     oroacademic_issue.form.type.issue_api:
             class: '%oroacademic_issue.form.type.issue_api.class%'
-            arguments: ['@oroacademic_issue.types.provider']
+            arguments:
+                - '@oroacademic_issue.types.provider'
             tags:
                 - { name: form.type, alias: issue }
 
     oroacademic_issue.form:
         class: Symfony\Component\Form\Form
-        factory: ['@form.factory', 'createNamed']
+        factory:
+            - '@form.factory'
+            - createNamed
         arguments:
             - oroacademic_issue
             - oroacademic_issue
 
     oroacademic_issue.form.api:
         class: Symfony\Component\Form\Form
-        factory: ['@form.factory', 'createNamed']
+        factory:
+            - '@form.factory'
+            - createNamed
         arguments:
             - issue
             - issue
@@ -47,7 +53,6 @@ services:
                     - '@oroacademic_issue.form.api'
                     - '@request'
                     - '@doctrine.orm.entity_manager'
-                    - '@oro_security.security_facade'
 
     oroacademic_issue.manager.api:
             class: '%oroacademic_issue.manager.api.class%'

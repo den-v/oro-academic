@@ -24,25 +24,18 @@ class IssueApiHandler
     protected $manager;
     
     /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
-    /**
      * @param FormInterface $form
      * @param Request $request
      * @param ObjectManager $manager
-     * @param SecurityFacade $securityFacade
      */
     public function __construct(
         FormInterface $form,
         Request $request,
-        ObjectManager $manager,
-        SecurityFacade $securityFacade
+        ObjectManager $manager
     ) {
         $this->form    = $form;
         $this->request = $request;
         $this->manager = $manager;
-        $this->securityFacade = $securityFacade;
     }
     /**
      * Process form

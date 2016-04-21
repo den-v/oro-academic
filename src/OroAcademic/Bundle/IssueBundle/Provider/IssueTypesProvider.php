@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vdenchyk
- * Date: 13.04.16
- * Time: 16:30
- */
 
 namespace OroAcademic\Bundle\IssueBundle\Provider;
 

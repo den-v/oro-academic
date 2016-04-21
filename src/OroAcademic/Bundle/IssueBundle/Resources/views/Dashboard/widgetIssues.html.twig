@@ -9,7 +9,7 @@
     {% set actions = [{
         'url': path('oroacademic_issue_index', {'grid':{'issues-grid':{'p':100, 'f':{'workflowStepLabel':{'value':{0:1, 1:2, 2:3, 3:5}}, 'collaborators':{'value': entity.id}}}|url_encode}}),
         'type': 'link',
-        'label': 'View All'
+        'label': 'oroacademic.issue.actions.view_all'|trans
     }] %}
 
     {{ parent() }}

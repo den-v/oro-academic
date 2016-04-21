@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vdenchyk
- * Date: 30/03/16
- * Time: 20:04
- */
 
 namespace OroAcademic\Bundle\IssueBundle\EventListener;
 

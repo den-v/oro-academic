@@ -4,6 +4,7 @@ namespace OroAcademic\Bundle\IssueBundle\Tests\Unit\Form\Handler;
 
 use OroAcademic\Bundle\IssueBundle\Entity\Issue;
 use OroAcademic\Bundle\IssueBundle\Form\Handler\IssueHandler;
+use OroAcademic\Bundle\IssueBundle\Form\Handler\IssueApiHandler;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Oro\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class IssueHandlerTest extends \PHPUnit_Framework_TestCase
+class IssueHandlersTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|FormInterface
@@ -29,9 +30,9 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
     protected $manager;
 
     /**
-     * @var IssueHandler
+     * @var array
      */
-    protected $handler;
+    protected $handlers;
 
     /**
      * @var Issue
@@ -60,23 +61,32 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->entity  = new Issue();
-        $this->handler = new IssueHandler(
+        $handler = new IssueHandler(
             $this->form,
             $this->request,
             $this->manager
         );
+
+        $handlerApi = new IssueApiHandler(
+            $this->form,
+            $this->request,
+            $this->manager
+        );
+        $this->handlers = [$handler, $handlerApi];
     }
 
     public function testProcessUnsupportedRequest()
     {
-        $this->form->expects($this->once())
+        $this->form->expects($this->exactly(2))
             ->method('setData')
             ->with($this->entity);
 
         $this->form->expects($this->never())
             ->method('submit');
 
-        $this->assertFalse($this->handler->process($this->entity, $this->user));
+        foreach ($this->handlers as $handler) {
+            $this->assertFalse($handler->process($this->entity, $this->user));
+        }
     }
 
     /**
@@ -90,12 +100,14 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->form->expects($this->any())->method('setData')
             ->with($this->entity);
-        $this->form->expects($this->once())->method('submit')
+        $this->form->expects($this->exactly(2))->method('submit')
             ->with($this->request);
-        $this->form->expects($this->once())->method('isValid')
+        $this->form->expects($this->exactly(2))->method('isValid')
             ->will($this->returnValue(true));
 
-        $this->assertTrue($this->handler->process($this->entity, $this->user));
+        foreach ($this->handlers as $handler) {
+            $this->assertTrue($handler->process($this->entity, $this->user));
+        }
     }
 
     public function supportedMethods()

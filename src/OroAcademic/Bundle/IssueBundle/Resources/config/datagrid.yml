@@ -209,10 +209,13 @@ datagrid:
                                 - issue.id IN (:ids)
                     bind_parameters:
                         - ids
+                sorters: ~
                 filters: ~
                 options:
                     toolbarOptions:
                         hide: true
+                entity_pagination: true
+
     collaborators-grid:
                 extends: users-grid
                 source:
@@ -222,6 +225,7 @@ datagrid:
                                 - u.id IN (:ids)
                     bind_parameters:
                         - ids
+                sorters: ~
                 filters: ~
                 options:
                     toolbarOptions:

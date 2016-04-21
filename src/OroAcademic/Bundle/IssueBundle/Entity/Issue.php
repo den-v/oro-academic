@@ -433,10 +433,12 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param int $code
+     * @return Issue
      */
     public function setCode($code)
     {
         $this->code = $code;
+        return $this;
     }
 
     /**
@@ -449,10 +451,12 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param string $summary
+     * @return Issue
      */
     public function setSummary($summary)
     {
         $this->summary = $summary;
+        return $this;
     }
 
     /**
@@ -465,10 +469,12 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param string $description
+     * @return Issue
      */
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
@@ -499,10 +505,12 @@ class Issue extends ExtendIssue implements DatesAwareInterface
 
     /**
      * @param IssuePriority $priority
+     * @return Issue
      */
     public function setPriority($priority)
     {
         $this->priority = $priority;
+        return $this;
     }
 
     /**

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vdenchyk
- * Date: 30/03/16
- * Time: 12:52
- */
 
 namespace OroAcademic\Bundle\IssueBundle\Controller\Api\Soap;
 

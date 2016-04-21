@@ -10,6 +10,7 @@ use Oro\Bundle\SoapBundle\Form\EventListener\PatchSubscriber;
 
 class IssueApiType extends IssueType
 {
+    const NAME = 'issue';
     /**
      * @param FormBuilderInterface $builder
      * @param array $options

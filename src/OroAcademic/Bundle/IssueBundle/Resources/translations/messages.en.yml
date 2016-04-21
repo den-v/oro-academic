@@ -7,6 +7,7 @@ oroacademic:
                 create: Create Issue
                 update: Update Issue
                 delete: Delete Issue
+                view_all: View All
             #
             # OroAcademic/Bundle/IssueBundle/Entity/Issue
             #
@@ -41,6 +42,14 @@ oroacademic:
                         label.label:    Label
 
             saved_message:              Issue Successfully Saved
+
+            widgets:
+                issues_by_state:
+                    label: Issues by Status
+                    description: Issues by Status
+                issues_widget:
+                    label: Resent Active Issues
+                    description: Resent Active Issues where current user collaborator
 
         subissue:
             entity_label:               Sub-Task

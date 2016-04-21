@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vdenchyk
- * Date: 30/03/16
- * Time: 19:59
- */
 
 namespace OroAcademic\Bundle\IssueBundle\Migrations\Schema\v1_2;
 

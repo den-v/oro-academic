@@ -3,6 +3,8 @@ oro_menu_config:
         issues:
             label: 'oroacademic.issue.menu.label'
             route: 'oroacademic_issue_index'
+            extras:
+                 routes: ['oroacademic_issue_update', 'oroacademic_issue_create', 'oroacademic_issue_view']
 
     tree:
         application_menu:
@@ -10,3 +12,9 @@ oro_menu_config:
                 activities_tab:
                     children:
                         issues: ~
+
+oro_titles:
+    oroacademic_issue_index: oroacademic.issue.menu.label
+    oroacademic_issue_view: '%%entity.summary%%'
+    oroacademic_issue_create: oro.ui.create_entity
+    oroacademic_issue_update: '%%entity.summary%% - Edit'

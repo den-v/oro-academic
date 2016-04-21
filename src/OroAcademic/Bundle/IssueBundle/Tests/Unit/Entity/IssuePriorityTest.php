@@ -16,7 +16,7 @@ class IssuePriorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettersAndGetters($property, $value)
     {
-        $obj = new IssuePriority('low');
+        $obj = new IssuePriority();
 
         call_user_func_array(array($obj, 'set' . ucfirst($property)), array($value));
         $this->assertEquals($value, call_user_func_array(array($obj, 'get' . ucfirst($property)), array()));
@@ -25,7 +25,8 @@ class IssuePriorityTest extends \PHPUnit_Framework_TestCase
     public function testGetName()
     {
         $expected = 'low';
-        $entity = new IssuePriority($expected);
+        $entity = new IssuePriority();
+        $entity->setName($expected);
         $this->assertEquals($expected, $entity->getName());
     }
 
