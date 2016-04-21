@@ -37,7 +37,8 @@ class LoadIssuePriority extends AbstractFixture
     {
         foreach ($this->data as $priority) {
             if (!$this->isPriorityExist($manager, $priority['name'])) {
-                $entity = new IssuePriority($priority['name']);
+                $entity = new IssuePriority();
+                $entity->setName($priority['name']);
                 $entity->setLabel($priority['label']);
                 $entity->setOrder($priority['order']);
                 $manager->persist($entity);

@@ -16,7 +16,6 @@ class OroAcademicIssueExtensionTest extends ExtensionTestCase
             'oroacademic_issue.entity.class',
             'oroacademic_issue.note.listener.class',
             'oroacademic_issue.entity.listener.class',
-            'oroacademic_issue.grid.listener.class',
             'oroacademic_issue.types.provider.class',
             'oroacademic_issue.types',
             // form.yml
@@ -36,7 +35,6 @@ class OroAcademicIssueExtensionTest extends ExtensionTestCase
             'oroacademic_issue.types.provider',
             'oroacademic_issue.note.listener',
             'oroacademic_issue.entity.listener',
-            'oroacademic_issue.grid.listener',
             // form.yml
             'oroacademic_issue.form.type.issue',
             'oroacademic_issue.form.type.issue_api',

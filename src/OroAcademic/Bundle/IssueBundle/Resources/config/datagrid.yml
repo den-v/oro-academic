@@ -211,10 +211,10 @@ datagrid:
                         - ids
                 sorters: ~
                 filters: ~
+                actions: ~
                 options:
                     toolbarOptions:
                         hide: true
-                entity_pagination: true
 
     collaborators-grid:
                 extends: users-grid
@@ -227,6 +227,7 @@ datagrid:
                         - ids
                 sorters: ~
                 filters: ~
+                actions: ~
                 options:
                     toolbarOptions:
                         hide: true

@@ -2,23 +2,11 @@
 
 namespace OroAcademic\Bundle\IssueBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Oro\Bundle\SoapBundle\Form\EventListener\PatchSubscriber;
-
-class IssueApiType extends IssueType
+class IssueApiType extends AbstractIssueType
 {
     const NAME = 'issue';
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        parent::buildForm($builder, $options);
-    }
 
     /**
      * {@inheritdoc}
@@ -31,13 +19,5 @@ class IssueApiType extends IssueType
                 'csrf_protection' => false
             ]
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'issue';
     }
 }

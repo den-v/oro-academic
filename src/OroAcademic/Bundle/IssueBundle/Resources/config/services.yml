@@ -2,7 +2,6 @@ parameters:
     oroacademic_issue.entity.class:                       OroAcademic\Bundle\IssueBundle\Entity\Issue
     oroacademic_issue.note.listener.class:                OroAcademic\Bundle\IssueBundle\EventListener\NoteListener
     oroacademic_issue.entity.listener.class:              OroAcademic\Bundle\IssueBundle\EventListener\IssueEntityListener
-    oroacademic_issue.grid.listener.class:              OroAcademic\Bundle\IssueBundle\EventListener\GridListener
     oroacademic_issue.types.provider.class:               OroAcademic\Bundle\IssueBundle\Provider\IssueTypesProvider
 
     oroacademic_issue.types:
@@ -28,8 +27,3 @@ services:
             - '@oro_navigation.content.topic_sender'
         tags:
             - { name: doctrine.orm.entity_listener }
-
-    oroacademic_issue.grid.listener:
-            class: '%oroacademic_issue.grid.listener.class%'
-            tags:
-                - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
